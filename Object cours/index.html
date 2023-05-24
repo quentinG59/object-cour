@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garage de voitures</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Garage de voitures</h1>
+
+  <h2>Ajouter une voiture</h2>
+  <label for="marque">Marque :</label>
+  <input type="text" id="marque">
+  <br>
+  <label for="modele">Modèle :</label>
+  <input type="text" id="modele">
+  <br>
+  <label for="annee">Année :</label>
+  <input type="number" id="annee">
+  <br>
+  <label for="couleur">Couleur :</label>
+  <input type="text" id="couleur">
+  <br>
+  <button onclick="ajouterVoiture()">Ajouter</button>
+
+  <h2>Liste des voitures</h2>
+  <table id="garageTable">
+    <tr>
+      <th>Marque</th>
+      <th>Modèle</th>
+      <th>Année</th>
+      <th>Couleur</th>
+    </tr>
+  </table>
+
+  <script>
+    // Classe Voiture
+    class Voiture {
+      constructor(marque, modele, annee, couleur) {
+        this.marque = marque;
+        this.modele = modele;
+        this.annee = annee;
+        this.couleur = couleur;
+      }
+    }
+
+    // Classe Garage
+    class Garage {
+      constructor() {
+        this.voitures = [];
+      }
+
+      ajouterVoiture(voiture) {
+        this.voitures.push(voiture);
+      }
+
+      afficherVoitures() {
+        const table = document.getElementById('garageTable');
+        table.innerHTML = `
+          <tr>
+            <th>Marque</th>
+            <th>Modèle</th>
+            <th>Année</th>
+            <th>Couleur</th>
+          </tr>
+        `;
+        this.voitures.forEach((voiture) => {
+          const row = table.insertRow();
+          row.insertCell().textContent = voiture.marque;
+          row.insertCell().textContent = voiture.modele;
+          row.insertCell().textContent = voiture.annee;
+          row.insertCell().textContent = voiture.couleur;
+        });
+      }
+    }
+
+    // Création du garage
+    const garage = new Garage();
+
+    // Fonction pour ajouter une voiture depuis l'interface
+    function ajouterVoiture() {
+      const marqueInput = document.getElementById('marque');
+      const modeleInput = document.getElementById('modele');
+      const anneeInput = document.getElementById('annee');
+      const couleurInput = document.getElementById('couleur');
+
+      const voiture = new Voiture(
+        marqueInput.value,
+        modeleInput.value,
+        parseInt(anneeInput.value),
+        couleurInput.value
+      );
+
+      garage.ajouterVoiture(voiture);
+      garage.afficherVoitures();
+
+      // Réinitialiser les champs du formulaire
+      marqueInput.value = '';
+      modeleInput.value = '';
+      anneeInput.value = '';
+      couleurInput.value = '';
+    }
+  </script>
+</body>
+</html>
